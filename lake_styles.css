@@ -1,0 +1,337 @@
+﻿@charset "utf-8";
+
+/*
+   New Perspectives on HTML5 and CSS3, 7th Edition
+   Tutorial 2
+   Case Problem 4
+
+   Great Lakescape Lodge Style Sheet
+   Author: basasfa131
+   Date:   2026-09-22
+
+   Filename: lake_styles.css
+*/
+
+/* ==========================================================
+   3a. Character encoding declaration
+   The @charset rule on line 1 tells the browser that this
+   style sheet is encoded as UTF-8 (must be the first line).
+   ========================================================== */
+
+/* ==========================================================
+   3b. Web fonts (@font-face)
+   Two fonts are supplied with the case archive. Each is
+   declared with a .woff source first and a .ttf fallback,
+   so older browsers can still load the font.
+   ========================================================== */
+
+@font-face {
+   font-family: 'CAC Champagne';
+   src: url('cac_champagne.woff') format('woff'),
+        url('cac_champagne.ttf') format('truetype');
+}
+
+@font-face {
+   font-family: 'DobkinPlain';
+   src: url('DobkinPlain.woff') format('woff'),
+        url('DobkinPlain.ttf') format('truetype');
+}
+
+/* ==========================================================
+   3j. Page arrangement: CSS Grid
+   The <body> becomes a grid container. The header spans both
+   columns, the left and right content columns sit side by
+   side, and the footer spans both columns again.
+   ========================================================== */
+
+body {
+   display: grid;
+   grid-template-columns: 70% 24%;
+   grid-template-areas:
+      "header header"
+      "left   right"
+      "footer footer";
+   column-gap: 4%;
+}
+
+/* Grid area assignments (child selectors) */
+body > header           { grid-area: header; }
+body > section#leftcol  { grid-area: left; }
+body > section#rightcol { grid-area: right; }
+body > footer           { grid-area: footer; }
+
+/* 3j: let the grid tracks size the columns, overriding the
+      float widths and margins from lake_layout.css */
+body > section#leftcol,
+body > section#rightcol {
+   width: auto;
+   margin-left: 0;
+   margin-right: 0;
+}
+
+/* 3h + 3i: clearfix - generated empty content that clears
+      the floated Notes / Upcoming Events asides */
+section#leftcol::after {
+   content: "";
+   display: table;
+   clear: both;
+}
+
+/* ==========================================================
+   3c. Background and text colours
+   Colour VALUES (rgb / hex) and colour NAMES are both used.
+   ========================================================== */
+
+body {
+   /* 3c: background colour as an rgb value */
+   background-color: rgb(63, 28, 84);
+   /* 3c: text colour as a colour name */
+   color: white;
+   font-family: 'Trebuchet MS', Verdana, Arial, sans-serif;
+}
+
+/* 3d: semi-transparent colour (rgba) over the purple body */
+section#leftcol {
+   background-color: rgba(255, 255, 255, 0.9);
+   color: rgb(58, 20, 64);            /* 3c: rgb value */
+   padding: 20px 24px 30px;           /* 3h: padding */
+   margin-top: 12px;                  /* 3h: margin */
+}
+
+section#rightcol {
+   background-color: lavender;        /* 3c: colour name */
+   color: rgb(63, 28, 84);            /* 3c: rgb value */
+   padding: 16px 18px 24px;           /* 3h */
+   margin-top: 12px;                  /* 3h */
+}
+
+/* ==========================================================
+   Headings & typography (3b, 3c, 3h)
+   ========================================================== */
+
+h1, h2 {
+   font-family: 'CAC Champagne', cursive;   /* 3b: web font */
+   color: rgb(120, 44, 140);                /* 3c */
+   letter-spacing: 0.08em;
+}
+
+/* 3e: child selector - only the h1 directly inside #leftcol */
+section#leftcol > h1 {
+   font-size: 2.6em;
+   margin: 8px 0 6px;                       /* 3h */
+}
+
+/* 3i: generated content - decorative marker before Welcome */
+section#leftcol > h1::before {
+   content: "\00BB\00A0";                   /* "» " */
+   color: rgb(216, 178, 92);                /* 3c */
+}
+
+/* 3e: nested-element selector - emphasised lodge name */
+section#leftcol p em {
+   color: rgb(150, 55, 110);                /* 3c */
+   font-style: italic;
+}
+
+/* ==========================================================
+   Left column asides: Notes & Upcoming Events (3d, 3h)
+   ========================================================== */
+
+section#leftcol aside {
+   /* 3d: semi-transparent purple wash */
+   background-color: rgba(63, 28, 84, 0.08);
+   border: 1px solid #D2B24A;               /* 3c: hex value */
+   padding: 10px 14px;                      /* 3h */
+}
+
+section#leftcol aside h1 {
+   font-size: 1.5em;
+   margin: 2px 0 6px;                       /* 3h */
+}
+
+/* 3i: generated content - colon after the aside headings */
+section#leftcol aside h1::after {
+   content: ":";
+   color: rgb(216, 178, 92);                /* 3c */
+}
+
+/* 3f: square list markers for the Notes list */
+section#leftcol aside ul {
+   list-style-type: square;                 /* 3f */
+   list-style-position: inside;             /* 3f */
+   margin: 6px 0;                           /* 3h */
+   padding-left: 4px;                       /* 3h */
+}
+
+section#leftcol aside ul li {
+   margin-bottom: 6px;                      /* 3h */
+}
+
+/* 3e: deep-nested selector - links inside the aside lists */
+section#leftcol aside ul li a {
+   color: rgb(120, 44, 140);                /* 3c */
+   text-decoration: none;
+}
+
+/* 3g: pseudo-class - hover state for aside links */
+section#leftcol aside ul li a:hover {
+   color: rgb(216, 178, 92);
+   text-decoration: underline;
+}
+
+/* ==========================================================
+   Right column navigation (3f, 3i, 3h)
+   ========================================================== */
+
+section#rightcol nav h2 {
+   font-size: 1.5em;
+   border-bottom: 2px solid #7A3B8E;        /* 3c: hex value */
+   padding-bottom: 4px;                     /* 3h */
+   margin: 14px 0 6px;                      /* 3h */
+}
+
+/* 3g: pseudo-class - first h2 has no top margin */
+section#rightcol nav h2:first-child {
+   margin-top: 0;
+}
+
+/* 3f: list markers removed from the sidebar lists */
+section#rightcol nav ul {
+   list-style-type: none;                   /* 3f */
+   margin: 4px 0 14px;                      /* 3h */
+   padding-left: 0;                         /* 3h */
+}
+
+section#rightcol nav li {
+   margin: 3px 0;                           /* 3h */
+}
+
+/* 3i + 3g: generated content on a pseudo-element of each link */
+section#rightcol nav ul li a::before {
+   content: "\00BB\00A0";                   /* "» " marker */
+   color: rgb(216, 178, 92);                /* 3c */
+}
+
+section#rightcol nav a {
+   text-decoration: none;
+   color: rgb(63, 28, 84);                  /* 3c */
+   padding: 2px 4px;                        /* 3h */
+}
+
+/* 3g: pseudo-classes - hover and visited link states */
+section#rightcol nav a:hover {
+   color: rgb(216, 178, 92);
+   /* 3d: semi-transparent hover background */
+   background-color: rgba(63, 28, 84, 0.15);
+}
+
+section#rightcol nav a:visited {
+   color: rgb(120, 44, 140);
+}
+
+/* ==========================================================
+   Header navigation (3j: Flexbox, 3c, 3g)
+   ========================================================== */
+
+/* 3j: Flexbox replaces the table layout from lake_layout.css */
+header > nav {
+   display: flex;                           /* 3j */
+   background-color: black;                 /* 3c: colour name */
+   margin: 0;
+   padding: 0;
+}
+
+header > nav > ul {
+   display: flex;                           /* 3j */
+   width: 100%;
+   list-style-type: none;                   /* 3f */
+   margin: 0;
+   padding: 0;
+}
+
+header > nav > ul > li {
+   display: block;
+   flex: 1 1 auto;                          /* 3j: equal-width items */
+}
+
+/* 3e: child selector - direct anchor child of each nav item */
+body > header > nav > ul > li > a {
+   text-decoration: none;
+   color: white;                            /* 3c: colour name */
+   background-color: rgb(20, 8, 28);        /* 3c: rgb value */
+   padding: 10px 0;                         /* 3h */
+}
+
+/* 3e + 3g: adjacent sibling + child selector for separators */
+body > header > nav > ul > li + li > a {
+   border-left: 1px solid rgb(216, 178, 92);
+}
+
+/* 3g: pseudo-class - hover state on navigation links */
+header > nav a:hover {
+   background-color: rgb(216, 178, 92);     /* 3c */
+   color: rgb(30, 10, 40);                  /* 3c */
+}
+
+/* 3g: pseudo-classes - first and last child accents */
+header > nav > ul > li:first-child a {
+   background-color: rgb(216, 178, 92);
+   color: rgb(30, 10, 40);
+}
+
+header > nav > ul > li:last-child a {
+   border-right: 0;
+}
+
+/* ==========================================================
+   Guest testimonial blockquote (3b, 3i, 3h)
+   ========================================================== */
+
+blockquote {
+   font-family: 'DobkinPlain', serif;       /* 3b: web font */
+   font-size: 1.15em;
+   background-color: rgb(63, 28, 84);       /* 3c */
+   color: white;                            /* 3c: colour name */
+   margin: 14px 0 0;                        /* 3h */
+   padding: 14px 18px;                      /* 3h */
+   border-left: 6px solid rgb(216, 178, 92);
+}
+
+/* 3i: generated opening quotation mark */
+blockquote::before {
+   content: "\201C";                        /* " " */
+   font-size: 2.4em;
+   line-height: 0.6;
+   float: left;
+   margin-right: 6px;                       /* 3h */
+   color: rgb(216, 178, 92);                /* 3c */
+}
+
+/* 3i: generated closing quotation mark */
+blockquote::after {
+   content: "\201D";                        /* " " */
+   color: rgb(216, 178, 92);                /* 3c */
+}
+
+/* ==========================================================
+   Footer (3j: Flexbox, 3b, 3c)
+   ========================================================== */
+
+footer {
+   display: flex;                           /* 3j */
+   justify-content: center;                 /* 3j */
+   align-items: center;                     /* 3j */
+   flex-wrap: wrap;                         /* 3j */
+   gap: 6px;                                /* 3j */
+   background-color: black;                 /* 3c: colour name */
+   color: white;                            /* 3c: colour name */
+   margin-top: 14px;                        /* 3h */
+   padding: 12px 10px;                      /* 3h */
+   font-size: 0.85em;
+}
+
+footer em {
+   font-family: 'CAC Champagne', cursive;   /* 3b: web font */
+   font-size: 1.4em;
+   color: rgb(216, 178, 92);                /* 3c */
+}
